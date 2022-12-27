@@ -5,9 +5,10 @@ const server = http.createServer((request, response)=>{          //request 、 r
   response.writeHead(200, {
     'Content-Type': 'text/html'
   });
-  response.end(`<h2>Hello</h2>
+  response.end(`<h2>Hello</h2>   //沒有end 不知送什麼給前端
   <p>${request.url}</p>`
   )
 });
 
 server.listen(3000);
+//ctrl+c 停止server
