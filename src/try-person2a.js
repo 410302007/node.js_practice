@@ -4,5 +4,5 @@ const {Person, f2} = require('./Person2');   //使用相對路徑 ， require時
 
 const p1 = new Person('David', 25);
 
-console.log(p1.toString());    //2.
-console.log(f2(9));    //3.
+console.log(p1.toString());    //#2.{"name":"David","age":25}
+console.log(f2(9));    //#3. 81
