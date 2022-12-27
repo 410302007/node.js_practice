@@ -16,6 +16,12 @@ app.get('/',(req, res)=>{
 
 });
 
+app.get("/json-sales", (req,res)=>{
+  const data = require(__dirname + '/data/sales.json');  //require可在程式裡任何地方require 
+                                                         //data => array
+  res.json(data);   //網頁回傳 json格式
+  // res.render('json-sales');
+})
 
 
 //使用靜態內容的資料夾
