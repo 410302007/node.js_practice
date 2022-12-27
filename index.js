@@ -1,0 +1,18 @@
+//載入env 設定
+require('dotenv').config();
+
+//引入express
+const express = require('express');
+
+//建立web server 物件
+const app = express();
+
+//路由設定， routes
+app.get('/',(req, res)=>{
+  res.send(`<h1>您好</h1>`);
+
+});
+const port = process.env.PORT || 3001;  //沒有抓到值(PORT=3002)， 選擇3001
+app.listen(port, ()=>{
+  console.log(`server started:${port}`); //啟動server port:3002
+})
