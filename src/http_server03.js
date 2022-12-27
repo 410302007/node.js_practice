@@ -7,7 +7,7 @@ const server = http.createServer(async(req, res)=>{          //request 、 respo
   res.writeHead(200,{
     'Content-Type': 'text/plain'
   })
-  const result = await fs.readFile(                         //error -> array
+  const result = await fs.readFile(                         
  __dirname + "/header01.txt"
  );
   console.log(result.toString());
