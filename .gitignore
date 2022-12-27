@@ -7,6 +7,8 @@
 node_modules/
 dist/
 
+/public/fontawesome-free-6.2.0-web
+
 package-lock.json
 
 .vscode
