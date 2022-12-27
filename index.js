@@ -7,17 +7,16 @@ const express = require('express');
 //建立web server 物件
 const app = express();
 
+app.set('view engine','ejs');
+
+
 //路由設定， routes
 app.get('/',(req, res)=>{
-  res.send(`<h1>您好</h1>`);
+  res.render('main', {name: '陳小明'});   
 
 });
 
-//故意蓋掉下面內容
-// app.get('/a.html',(req, res)=>{
-//   res.send(`<h1>假的 a.html</h1>`);
 
-// });
 
 //使用靜態內容的資料夾
 app.use(express.static('public'));
