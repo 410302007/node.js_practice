@@ -25,6 +25,12 @@ app.get("/json-sales", (req,res)=>{
   res.render('json-sales',{data});
 })
 
+app.get("/try-qs", (req,res)=>{
+  res.json(req.query);               //queryString重複時=>變array        
+                                    //ex: a=1&b=123&a=7  -> {"a":["1","7"],"b":"123"}
+
+})
+
 
 //使用靜態內容的資料夾
 app.use(express.static('public'));
