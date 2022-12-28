@@ -124,6 +124,16 @@ app.post("/try-upload", upload.single('avatar'), (req, res)=>{
 app.post("/try-uploads", upload.array('photos'), (req, res)=>{
   res.json(req.files);
 });  
+//設定路由-> 越寬鬆規則放越後面，越嚴謹規則放前面
+//寬鬆
+app.get("/my_params1/:action?/:id?", (req, res)=>{
+  res.json(req.params);
+});  
+
+//嚴謹(因寬鬆在前，導致看不到)
+// app.get("/my_params1/abc", (req, res)=>{
+//   res.json(req.params);
+// }); 
 
 //使用靜態內容的資料夾
 app.use(express.static('public'));
