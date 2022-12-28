@@ -135,6 +135,14 @@ app.get("/my_params1/:action?/:id?", (req, res)=>{
 //   res.json(req.params);
 // }); 
 
+//手機號碼
+app.get(/^\/m\/09\d{2}-?\d{3}-?\d{3}$/i, (req, res)=>{
+  let u = req.url.slice(3);
+  u= u.split('?')[0];  //丟掉query String
+  u = u.split('-').join('');
+  res.send(u);
+});  
+
 //使用靜態內容的資料夾
 app.use(express.static('public'));
 
