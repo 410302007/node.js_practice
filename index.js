@@ -9,6 +9,11 @@ const app = express();
 
 app.set('view engine','ejs');
 
+//路由開始前
+//直接使用use ; 不用分post or get
+//TOP-LEVEL MIDDLEWARE
+app.use(express.urlencoded({extended :false}));
+app.use(express.json());
 
 //路由設定， routes
 app.get('/',(req, res)=>{
@@ -90,12 +95,13 @@ app.get("/try-qs", (req,res)=>{
 
 })
 
-const urlencodedParser = express.urlencoded({extended: false});   //application/x-www-form-urlencoded
-const jsonParser = express.json();    //回應json格式(application/json)
+//放置前面
+// const urlencodedParser = express.urlencoded({extended: false});   //application/x-www-form-urlencoded
+// const jsonParser = express.json();    //回應json格式(application/json)
 // 把 urlencodedParser 當 middleware
 //如果有兩個middleware,包成array, 按照順序, 進入路由處理器
 //根據檔頭(header)判斷格式
-app.post(["/try-post","/try-post2"], [urlencodedParser, jsonParser] ,(req, res)=>{
+app.post(["/try-post","/try-post2"] ,(req, res)=>{
   res.json(req.body);
 });
 
