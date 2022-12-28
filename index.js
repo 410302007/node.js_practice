@@ -115,9 +115,15 @@ app.post("/try-post-form", (req, res)=>{
   // res.json(req.body);
 });
 
+//上傳一張照片
 app.post("/try-upload", upload.single('avatar'), (req, res)=>{
   res.json(req.file);
 });    
+
+//上傳多張照片(使用 array)
+app.post("/try-uploads", upload.array('photos'), (req, res)=>{
+  res.json(req.files);
+});  
 
 //使用靜態內容的資料夾
 app.use(express.static('public'));
