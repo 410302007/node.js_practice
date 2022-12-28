@@ -1,7 +1,7 @@
 //載入env 設定
 require('dotenv').config();
 const multer = require('multer');               //安裝multer
-const upload = multer({dest: 'upload_tmp/'});   //設定上傳暫存目錄
+const upload = require('./modules/upload-img');   //設定上傳暫存目錄
 
 //引入express
 const express = require('express');
