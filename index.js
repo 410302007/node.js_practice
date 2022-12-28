@@ -1,5 +1,7 @@
 //載入env 設定
 require('dotenv').config();
+const multer = require('multer');               //安裝multer
+const upload = multer({dest: 'upload_tmp/'});   //設定上傳暫存目錄
 
 //引入express
 const express = require('express');
@@ -112,6 +114,10 @@ app.post("/try-post-form", (req, res)=>{
   res.render('try-post-form',req.body);
   // res.json(req.body);
 });
+
+app.post("/try-upload", upload.single('avatar'), (req, res)=>{
+  res.json(req.file);
+});    
 
 //使用靜態內容的資料夾
 app.use(express.static('public'));

@@ -6,6 +6,7 @@
 # Node artifact files
 node_modules/
 dist/
+upload_tmp/
 
 /public/fontawesome-free-6.2.0-web
 
