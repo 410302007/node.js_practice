@@ -94,7 +94,7 @@ const urlencodedParser = express.urlencoded({extended: false});   //application/
 const jsonParser = express.json();    //回應json格式(application/json)
 // 把 urlencodedParser 當 middleware
 //如果有兩個middleware,包成array, 按照順序, 進入路由處理器
-
+//根據檔頭(header)判斷格式
 app.post(["/try-post","/try-post2"], [urlencodedParser, jsonParser] ,(req, res)=>{
   res.json(req.body);
 });
