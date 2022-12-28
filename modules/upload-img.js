@@ -4,6 +4,7 @@ const{v4: uuidv4} = require('uuid');
 const extMap = {
   'image/jpeg':'.jpg',
   'image/png': '.png',
+  'image/webp': '.webp',
 };
 
 const fileFilter = (req, file, cb)=>{      //file相當於index.js的request.file  //cb->callback
