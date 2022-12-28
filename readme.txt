@@ -9,4 +9,5 @@ thread
   res.end()
   res.send()
   res.render()
+  res.json()
 --------------
