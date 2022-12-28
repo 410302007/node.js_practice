@@ -27,28 +27,62 @@ app.get("/json-sales", (req,res)=>{
 
 app.get("/json-sales2", (req, res) => {
   const data = require(__dirname + "/data/sales.json");
+  const{orderby} = req.query;
 
   const handleObj = {
     name_asc: {
       label: "姓名由小到大",
-      sort: (a, b) => {},
+      sort: (a, b) => (a.name < b.name ? -1 : 1),
     },
     name_desc: {
       label: "姓名由大到小",
-      sort: (a, b) => {},
+      sort: (a, b) => (a.name > b.name ? -1 : 1),
     },
     age_asc: {
       label: "年齡由小到大",
-      sort: (a, b) => {},
+      sort: (a, b) => (a.age - b.age),
     },
     age_desc: {
       label: "年齡由大到小",
-      sort: (a, b) => {},
+      sort: (a, b) => (b.age- a.age ),
     },
   };
-
-  res.render("json-sales2", { data, handleObj });
+  // 有對應到 key 才做排序
+ if(handleObj[orderby]){
+  data.sort(handleObj[orderby].sort);
+ }
+ res.render("json-sales2", { data, handleObj, orderby });
 });
+
+app.get("/json-sales3", (req, res) => {
+  const data = require(__dirname + "/data/sales.json");
+
+  const handleAr = [
+    {
+      key: "name_asc",
+      label: "姓名由小到大",
+      sort: (a, b) => {},
+    },
+    {
+      key: "name_desc",
+      label: "姓名由大到小",
+      sort: (a, b) => {},
+    },
+    {
+      key: "age_asc",
+      label: "年齡由小到大",
+      sort: (a, b) => {},
+    },
+    {
+      key: "age_desc",
+      label: "年齡由大到小",
+      sort: (a, b) => {},
+    },
+  ];
+
+  res.render("json-sales", { data, handleObj });
+});
+
 
 app.get("/try-qs", (req,res)=>{
   res.json(req.query);               //queryString重複時=>變array        
