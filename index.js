@@ -90,6 +90,14 @@ app.get("/try-qs", (req,res)=>{
 
 })
 
+const urlencodedParser = express.urlencoded({extended: false});   //application/x-www-form-urlencoded
+const jsonParser = express.json();    //回應json格式(application/json)
+// 把 urlencodedParser 當 middleware
+//如果有兩個middleware,包成array, 按照順序, 進入路由處理器
+
+app.post(["/try-post","/try-post2"], [urlencodedParser, jsonParser] ,(req, res)=>{
+  res.json(req.body);
+});
 
 //使用靜態內容的資料夾
 app.use(express.static('public'));
