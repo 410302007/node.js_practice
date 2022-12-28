@@ -45,11 +45,11 @@ app.get("/json-sales2", (req, res) => {
     },
     age_asc: {
       label: "年齡由小到大",
-      sort: (a, b) => (a.age - b.age),
+      sort: (a, b) => a.age - b.age,
     },
     age_desc: {
       label: "年齡由大到小",
-      sort: (a, b) => (b.age- a.age ),
+      sort: (a, b) => b.age- a.age ,
     },
   };
   // 有對應到 key 才做排序
@@ -103,6 +103,14 @@ app.get("/try-qs", (req,res)=>{
 //根據檔頭(header)判斷格式
 app.post(["/try-post","/try-post2"] ,(req, res)=>{
   res.json(req.body);
+});
+
+app.get("/try-post-form", (req, res)=>{
+  res.render('try-post-form');
+});
+app.post("/try-post-form", (req, res)=>{
+  res.render('try-post-form',req.body);
+  // res.json(req.body);
 });
 
 //使用靜態內容的資料夾
