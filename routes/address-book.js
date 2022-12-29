@@ -7,10 +7,11 @@ const router =  express.Router();
 
 const getListData = async(req,res)=>{
   let page = +req.query.page || 1;     //用戶要看第幾頁   //+ =>限定為正
-  
+
   if(page<1){
     return res.redirect(req.baseUrl+trq.url);    //頁面轉向   //return-> 不再執行
   }
+  //如果 page 參數沒有提供或小於 1，則該函數將使用者重定向到應用程式的當前基礎 URL，並附上 trq.url
 
   const perPage = 20;                 //每頁20筆
   const t_sql ="SELECT COUNT(1) totalRows From address_book";   //求總筆數
