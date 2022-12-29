@@ -143,6 +143,8 @@ app.get(/^\/m\/09\d{2}-?\d{3}-?\d{3}$/i, (req, res)=>{
   res.send(u);
 });  
 
+app.use(require('./routes/admin2'));   //拿到routes/admin2裡router
+
 //使用靜態內容的資料夾
 app.use(express.static('public'));
 
