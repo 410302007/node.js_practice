@@ -1,4 +1,6 @@
-if(process.argv[2]==='production'){
+if(process.argv[2]==='production'){       
+  //process.argv -> 獲得array
+  //production.env裡(start)的[2]=> production
   require('dotenv').config({path: __dirname+ '/production.env'});
   }else{
     require('dotenv').config({path:__dirname+ '/dev.env'});
