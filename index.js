@@ -3,6 +3,7 @@ require('dotenv').config();
 const multer = require('multer');               //安裝multer
 const upload = require('./modules/upload-img');   //設定上傳暫存目錄
 const session = require('express-session');
+const moment = require('moment-timezone');
 
 //引入express
 const express = require('express');
@@ -174,6 +175,16 @@ app.get('/try-sess', (req,res) =>{
     session: req.session
   }) 
 });
+
+app.get('/try-moment',(req,res)=>{
+  const d1 = new Date(); 
+  const m1 = moment();   //new Date()
+  const m1a = m1.format('YYYY/MM/DD');
+  const m1b = m1.format('YYYY-MM-DD HH:mm:ss');
+  const m1c = m1.tz('Asia/Tokyo').format('YYYY-MM-DD HH:mm:ss');
+  const m2 = moment('2023-01-02');
+  res.json({m1a, m1b, m1c, d1, m2});
+})
 
 //使用靜態內容的資料夾
 app.use(express.static('public'));
