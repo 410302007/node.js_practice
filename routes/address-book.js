@@ -3,8 +3,11 @@ const db = require('../modules/connect-mysql');
 
 const router =  express.Router();
 
+
+//求總筆數
 router.get('/', async(req,res)=>{
-  const [rows] = await db.query("SELECT * FROM products LIMIT 5");
-  res.json(rows);
+  const t_sql ="SELECT COUNT(1) totalRows From address_book";
+  const [[{totalRows}]] = await db.query(t_sql);       //[[{totalRows}]]
+  res.json(totalRows);
 });
 module.exports = router; 
