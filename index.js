@@ -17,6 +17,13 @@ app.set('view engine','ejs');
 app.use(express.urlencoded({extended :false}));
 app.use(express.json());
 
+//自訂middleware
+app.use((req,res,next)=>{
+  res.locals.title ='寵物店';
+  next();     
+})
+
+
 //路由設定， routes
 app.get('/',(req, res)=>{
   res.render('main', {name: '陳小明'});   
@@ -33,6 +40,7 @@ app.get("/json-sales", (req,res)=>{
 })
 
 app.get("/json-sales2", (req, res) => {
+  res.locals.title = res.locals.title?  ('測試 - ' +res.locals.title) : '測試';
   const data = require(__dirname + "/data/sales.json");
   const{orderby} = req.query;
 
