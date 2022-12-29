@@ -181,7 +181,7 @@ app.get('/try-moment',(req,res)=>{
   const m1 = moment();   //new Date()
   const m1a = m1.format('YYYY/MM/DD');
   const m1b = m1.format('YYYY-MM-DD HH:mm:ss');
-  const m1c = m1.tz('Asia/Tokyo').format('YYYY-MM-DD HH:mm:ss');
+  const m1c = m1.tz('Asia/Tokyo').format('YYYY-MM-DD HH:mm:ss');   //tz->timezone 
   const m2 = moment('2023-01-02');
   res.json({m1a, m1b, m1c, d1, m2});
 })
