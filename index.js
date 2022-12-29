@@ -199,6 +199,8 @@ app.get('/try-db', async(req,res)=>{
   res.json(rows);
 })
 
+app.use('/address-book', require('./routes/address-book'));
+
 //使用靜態內容的資料夾
 app.use(express.static('public'));
 
