@@ -5,11 +5,11 @@ const router =  express.Router();
 
 
 
-router.get('/', async(req,res)=>{
+const getListData = async(req,res)=>{
   let page = +req.query.page || 1;     //用戶要看第幾頁   //+ =>限定為正
   
   if(page<1){
-    return res.redirect(req.baseUrl);    //頁面轉向   //return-> 不再執行
+    return res.redirect(req.baseUrl+trq.url);    //頁面轉向   //return-> 不再執行
   }
 
   const perPage = 20;                 //每頁20筆
@@ -27,7 +27,18 @@ router.get('/', async(req,res)=>{
   
   [rows]= await db.query(sql);
   //轉換時間格式
+  //map
 }
-  res.render('ab-list',{totalRows, totalPages, page, rows});
+  return {totalRows, totalPages, page, rows};
+};
+
+router.get("/", async(req, res)=>{
+  const output = await getListData(req, res);
+  res.render("ab-list",output);
 });
+router.get("/api", async(req, res)=>{
+  const output = await getListData(req, res);
+  res.json(output);
+});
+
 module.exports = router; 
