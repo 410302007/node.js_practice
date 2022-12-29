@@ -1,9 +1,10 @@
 //載入env 設定
 require('dotenv').config();
-const multer = require('multer');               //安裝multer
+const multer = require('multer');                 //安裝multer
 const upload = require('./modules/upload-img');   //設定上傳暫存目錄
-const session = require('express-session');
-const moment = require('moment-timezone');
+const session = require('express-session');       //安裝express-session
+const moment = require('moment-timezone');        //安裝moment-timezone
+const db = require('./modules/connect-mysql');   //連線資料庫
 
 //引入express
 const express = require('express');
@@ -184,6 +185,12 @@ app.get('/try-moment',(req,res)=>{
   const m1c = m1.tz('Asia/Tokyo').format('YYYY-MM-DD HH:mm:ss');   //tz->timezone 
   const m2 = moment('2023-01-02');
   res.json({m1a, m1b, m1c, d1, m2});
+});
+ 
+//連線資料庫
+app.get('/try-db', async(req,res)=>{
+  const [rows] = await db.query("SELECT * FROM categories")
+  res.json(rows);
 })
 
 //使用靜態內容的資料夾
