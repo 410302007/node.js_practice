@@ -10,7 +10,7 @@
   <select name="cate1" id="cate1">
     <!-- <option value=""></option> -->
   </select>
-  <select name="cate2" id="cate2">
+  <select name="cate2" id="cate2" >
     
   </select>
 
@@ -31,8 +31,11 @@
 
     //建立第一層選單 combobox
     let levelOne = data.filter(el=>el.parent_sid==='0');
-    document.querySelector('#cate1').innerHTML = levelOne.map(el=>`<option value="${el.sid}">${el.name}</option>`).join('');
+    document.querySelector('#cate1').innerHTML = levelOne.map(el=>`<option value="${el.sid}">${el.name}</option>`).join('');  //join('')-> 用空字串接起來
     console.log(levelOne);
+
+    
+    
     
     </script>
 </body>
