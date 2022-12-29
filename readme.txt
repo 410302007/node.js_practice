@@ -31,3 +31,10 @@ GET     /product/:pid       #取得單筆資料
 POST    /product            #新增資料
 PUT     /product/:pid       #修改資料
 DELETE  / product/:pid      #刪除資料
+
+
+
+
+//HW
+1. address-book list 生日的轉換 (map)
+2. 寫 html 用 ajax  呼叫 list api 呈現畫面 
