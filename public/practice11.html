@@ -11,7 +11,7 @@
  <div class="contaner">
   <div class="row">
     <div class="col-6">
-      <form>
+      <form method="post" action="/try-post">
         <div class="mb-3" id="radioG1">
                    <!--
               <label class="form-label">請選擇:</label>
@@ -31,6 +31,7 @@
             -->
 
           </div>
+          <div id="checkboxG1"></div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
 
@@ -43,10 +44,10 @@
   JSON.stringify(data1);  
   */
  const radioG1 = document.querySelector('#radioG1');
-
+ const checkboxG1 = document.querySelector('#checkboxG1');
   const data1 =[{"id":"4","name":"PHP"},{"id":"5","name":"JavaScript"},{"id":"7","name":"PS"},{"id":"8","name":"Chrome"},{"id":"9","name":"騙錢的"},{"id":"10","name":"C++"},{"id":"16","name":"椅拉"}];
 
-  radioG1.innerHTML=
+  radioG1.innerHTML=  `<label class="form-label">請選擇(單選):</label>` +
   data1.map(({id, name}, i)=>{
     return `<div class="form-check">
             <input 
@@ -58,6 +59,17 @@
             <label class="form-check-label" for="radioGroup1_${i}">${name}
             </label>
           </div>`
+  }).join('');
+
+
+  checkboxG1.innerHTML=  `<label class="form-label">請選擇(可多選):</label>` +
+  data1.map(({id, name}, i)=>{
+    return `<div class="form-check">
+  <input class="form-check-input" type="checkbox" name="checkboxGroup" value="${id}" id="checkboxG1_${id}">
+  <label class="form-check-label" for="checkboxG1_${id}">
+   ${name}
+  </label>
+</div>`
   }).join('');
     
     </script>
