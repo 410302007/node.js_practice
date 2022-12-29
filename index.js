@@ -39,6 +39,11 @@ app.use(session({
 //自訂middleware
 app.use((req,res,next)=>{
   res.locals.title =process.env.SITE_TITLE || '***沒有設定***';
+
+  //樣板輔助函式 helper functions
+  res.locals.toDateString = d=>moment(d).format('YYYY-MM-DD');
+  res.locals.toDatetimeString = d=>moment(d).format('YYYY-MM-DD HH:mm:ss');
+
   next();     
 })
 
