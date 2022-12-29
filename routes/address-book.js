@@ -26,7 +26,8 @@ router.get('/', async(req,res)=>{
   const sql = `SELECT * FROM address_book ORDER BY sid DESC LIMIT ${(page-1)*perPage}, ${perPage}`;
   
   [rows]= await db.query(sql);
+  //轉換時間格式
 }
-  res.json({totalRows, totalPages, page, rows});
+  res.render('ab-list',{totalRows, totalPages, page, rows});
 });
 module.exports = router; 
