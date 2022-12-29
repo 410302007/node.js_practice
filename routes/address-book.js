@@ -4,10 +4,14 @@ const db = require('../modules/connect-mysql');
 const router =  express.Router();
 
 
-//求總筆數
+
 router.get('/', async(req,res)=>{
-  const t_sql ="SELECT COUNT(1) num From address_book";
-  const [[{num: totalRows}]] = await db.query(t_sql);       //[[{totalRows}]]
-  res.json(totalRows);
+  let page = +req.query.page || 1;     //用戶要看第幾頁
+
+  const perPage = 20;                 //每頁20筆
+  const t_sql ="SELECT COUNT(1) totalRows From address_book";   //求總筆數
+  const [[{totalRows}]] = await db.query(t_sql);       //[[{totalRows}]]
+  const totalPages = Math.ceil(totalRows/perPage);   //總頁數
+  res.json({totalRows, totalPages, page});
 });
 module.exports = router; 
