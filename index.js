@@ -2,6 +2,7 @@
 require('dotenv').config();
 const multer = require('multer');               //安裝multer
 const upload = require('./modules/upload-img');   //設定上傳暫存目錄
+const session = require('express-session');
 
 //引入express
 const express = require('express');
@@ -16,6 +17,16 @@ app.set('view engine','ejs');
 //TOP-LEVEL MIDDLEWARE
 app.use(express.urlencoded({extended :false}));
 app.use(express.json());
+
+app.use(session({
+  // 新用戶沒有使用到 session 物件時不會建立 session 和發送 cookie
+  saveUninitialized: false,   //session未初始化時，是否儲存?
+  resave: false,              // 沒變更內容是否強制回存
+  secret: 'dskjdhsj1kjkj34j3hk4h1',    //加密
+  // cookie:{                         //沒有設定cookie，瀏覽器會持續運作
+  //   maxAge: 120_000   //20分鐘
+  // }
+}));
 
 //自訂middleware
 app.use((req,res,next)=>{
@@ -155,7 +166,14 @@ app.get(/^\/m\/09\d{2}-?\d{3}-?\d{3}$/i, (req, res)=>{
 app.use(require('./routes/admin2'));   //拿到routes/admin2裡router
 app.use('/admins', require('./routes/admin2'));
 
-
+app.get('/try-sess', (req,res) =>{
+  req.session.my_var = req.session.my_var || 0 ;   //預設為0
+  req.session.my_var++;
+  res.json({
+    my_var:req.session.my_var,
+    session: req.session
+  }) 
+});
 
 //使用靜態內容的資料夾
 app.use(express.static('public'));
