@@ -12,6 +12,7 @@ thread
   res.send()
   res.render()
   res.json()
+  res.redirect()
 --------------
 前端傳入的資料
   req.query()  //取得query string parameters
