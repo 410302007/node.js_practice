@@ -1,3 +1,9 @@
+if(process.argv[2]==='production'){
+  require('dotenv').config({path: __dirname+ '/production.env'});
+  }else{
+    require('dotenv').config({path:__dirname+ '/dev.env'});
+  }
+
 //載入env 設定
 require('dotenv').config();
 const multer = require('multer');                 //安裝multer
@@ -32,7 +38,7 @@ app.use(session({
 
 //自訂middleware
 app.use((req,res,next)=>{
-  res.locals.title ='寵物店';
+  res.locals.title =process.env.SITE_TITLE || '***沒有設定***';
   next();     
 })
 
