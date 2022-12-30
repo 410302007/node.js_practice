@@ -7,13 +7,14 @@
     <div class="col">
       <nav aria-label="Page navigation example">
         <ul class="pagination">
+          <li class="page-item <%= page == 1 ? 'disabled' : '' %>"><a class="page-link" href="?page=<%= page - 1 %>"><i class="fa-solid fa-circle-arrow-left"></i></a></li>
           <% for(let i=page-5; i<=page+5; i++) 
           if(i>=1 && i<=totalPages){ %>
             <li class="page-item <%= i==page ? 'active' : '' %>">
             <a class="page-link" href="?page=<%= i %>"><%= i %></a>
             </li>
           <% } %>
-
+          <li class="page-item <%= page == totalPages ? 'disabled' : '' %>"><a class="page-link" href="?page=<%= totalPages %>"><i class="fa-solid fa-circle-arrow-right"></i></a></li>
         </ul>
       </nav>
     </div>
@@ -23,12 +24,15 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col">會員編號</th>
             <th scope="col">姓名</th>
             <th scope="col">email</th>
             <th scope="col">手機</th>
             <th scope="col">生日</th>
             <th scope="col">地址</th>
+            <th scope="col">創建時間</th>
+            <th scope="col"><i class="fa-solid fa-trash"></i></th>
+            <th scope="col"><i class="fa-solid fa-file-pen"></i></th>
           </tr>
         </thead>
         <tbody>
@@ -40,6 +44,17 @@
             <td><%= r.mobile %></td>
             <td><%= toDateString(r.birthday) %></td>
             <td><%= r.address %></td>
+            <td><%= toDatetimeString(r.created_at) %></td>
+            <td>
+                <a href="delete.php?sid=<%= r.sid %>">
+                  <i class="fa-solid fa-trash"></i>
+                </a>
+              </td>
+            <td>
+                <a href="edit.php?sid=<%= r.sid %>">
+                  <i class="fa-solid fa-file-pen"></i>
+                </a>
+              </td>
           </tr>
           <% } %>
         </tbody>
