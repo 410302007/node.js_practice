@@ -11,8 +11,10 @@ require('dotenv').config();
 const multer = require('multer');                 //安裝multer
 const upload = require('./modules/upload-img');   //設定上傳暫存目錄
 const session = require('express-session');       //安裝express-session
+const MysqlStore = require('express-mysql-session')(session);
 const moment = require('moment-timezone');        //安裝moment-timezone
 const db = require('./modules/connect-mysql');   //連線資料庫
+const sessionStore = new MysqlStore({}, db);
 
 //引入express
 const express = require('express');
@@ -27,12 +29,13 @@ app.set('view engine','ejs');
 //TOP-LEVEL MIDDLEWARE
 app.use(express.urlencoded({extended :false}));
 app.use(express.json());
-app.use(require('cors')());
+app.use(require('cors')());      //使用cors
 
 app.use(session({
   // 新用戶沒有使用到 session 物件時不會建立 session 和發送 cookie
   saveUninitialized: false,   //session未初始化時，是否儲存?
   resave: false,              // 沒變更內容是否強制回存
+  store: sessionStore,
   secret: 'dskjdhsj1kjkj34j3hk4h1',    //加密
   // cookie:{                         //沒有設定cookie，瀏覽器會持續運作
   //   maxAge: 120_000   //20分鐘
