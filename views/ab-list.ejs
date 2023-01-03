@@ -42,16 +42,16 @@
             <td><%= r.name %></td>
             <td><%= r.email %></td>
             <td><%= r.mobile %></td>
-            <td><%= toDateString(r.birthday) %></td>
+            <td><%= r.birthday && toDateString(r.birthday) %></td>
             <td><%= r.address %></td>
             <td><%= toDatetimeString(r.created_at) %></td>
             <td>
-                <a href="delete.php?sid=<%= r.sid %>">
+              <a href="#">
                   <i class="fa-solid fa-trash"></i>
                 </a>
               </td>
             <td>
-                <a href="edit.php?sid=<%= r.sid %>">
+                <a href="/address-book/edit?sid=<%= r.sid %>">
                   <i class="fa-solid fa-file-pen"></i>
                 </a>
               </td>
