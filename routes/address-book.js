@@ -4,7 +4,13 @@ const upload = require('../modules/upload-img');
 const moment = require('moment-timezone');
 
 const router =  express.Router();
+router.use((req, res, next)=>{
+  const {url, baseUrl, originalUrl}= req;
 
+  res.locals = {...res.locals, url, baseUrl, originalUrl};
+
+  next();
+});
 
 
 const getListData = async(req,res)=>{

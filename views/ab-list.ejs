@@ -46,12 +46,12 @@
             <td><%= r.address %></td>
             <td><%= toDatetimeString(r.created_at) %></td>
             <td>
-              <a href="#">
+              <a href="javascript: deleteItem(<%= r.sid %>)">
                   <i class="fa-solid fa-trash"></i>
                 </a>
               </td>
             <td>
-                <a href="/address-book/edit?sid=<%= r.sid %>">
+                <a href="<%= baseUrl %>/edit?sid=<%= r.sid %>">
                   <i class="fa-solid fa-file-pen"></i>
                 </a>
               </td>
@@ -64,4 +64,22 @@
 </div>
 
 <%- include('parts/scripts') %>
+
+<script>
+  function deleteItem(sid){
+    if(! confirm(`是否要刪除編號為${sid}的資料?`)){
+      return;
+    }
+    fetch(`<%= baseUrl %>/${sid}`,{
+      method:'DELETE'
+    })
+    .then(r=>r.json())
+    .then(data=>{
+      console.log(data);
+      if(data.success){
+        location.reload();
+      }
+    })
+  }  
+</script>
 <%- include('parts/html-foot') %>
