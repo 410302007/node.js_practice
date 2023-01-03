@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require('../modules/connect-mysql');
 
+
 const router =  express.Router();
 
 
@@ -39,6 +40,11 @@ router.get("/", async(req, res)=>{
 });
 router.get("/api", async(req, res)=>{
   const output = await getListData(req, res);
+  for(let item of output.rows){
+    // item.birthday2 = res.locals.toDateString(item.birthday);
+    item.birthday = res.locals.toDateString(item.birthday); //item->object
+    item.created_at = res.locals.toDatetimeString(item.created_at);
+  }
   res.json(output);
 });
 
