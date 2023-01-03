@@ -75,6 +75,8 @@ router.get("/", async(req, res)=>{
   const output = await getListData(req, res);
   res.render("ab-list",output);
 });
+
+
 router.get("/api", async(req, res)=>{
   const output = await getListData(req, res);
   for(let item of output.rows){
@@ -83,6 +85,26 @@ router.get("/api", async(req, res)=>{
     item.created_at = res.locals.toDatetimeString(item.created_at);
   }
   //TODO: 用output.rows.forEach() 再寫一次功能
+  res.json(output);
+});
+
+router.delete("/:sid", async(req, res)=>{
+  const output ={
+    success:false,
+    error: ''
+  };
+
+  const sid = +req.params.sid || 0;  //+req.params.sid->轉換為數值
+  if(!sid){
+    output.error = '沒有 sid';
+    return res.json(output);
+  }
+  const sql = "DELETE FROM `address_book` WHERE sid=?";
+
+  const [result] = await db.query(sql, [sid]);
+
+  output.success = !! result.affectedRows;
+
   res.json(output);
 });
 
