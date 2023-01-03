@@ -1,6 +1,6 @@
 const express = require("express");
 const db = require('../modules/connect-mysql');
-
+const upload = require('../modules/upload-img');
 
 const router =  express.Router();
 
@@ -33,14 +33,13 @@ const getListData = async(req,res)=>{
 }
   return {totalRows, totalPages, page, rows};
 };
-//新增
+//新增資料
 router.get("/add", async(req, res)=>{
   res.render("ab-add");
 });
-
 router.post("/add", async(req, res)=>{
-  res.send('ok');
-  // res.render("ab-list",output);
+  //TODO資料檢查
+  res.json(req.body);
 });
 
 router.get("/", async(req, res)=>{
