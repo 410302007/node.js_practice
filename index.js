@@ -28,13 +28,13 @@ app.set('view engine','ejs');
 //直接使用use ; 不用分post or get
 
 const corsOptions = {
-  credential:true,
-  origin:(origin, callback)=>{
+  credentials: true,
+  origin: (origin, callback) => {
     console.log({origin});
     callback(null, true);
   },
 };
-app.use(require('cors')(corsOptions));      //使用cors
+app.use(require("cors")(corsOptions));   //使用cors
 
 app.use(session({
   // 新用戶沒有使用到 session 物件時不會建立 session 和發送 cookie
