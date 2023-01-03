@@ -76,10 +76,11 @@
             <td>${birthday}</td>  
             <td>${address}</td>  
           </tr>
-          `)).join('')};  
+          `)).join('')}
         </tbody>
       </table>
-      `}; 
+      `;
+    }; 
 
       fetch('/address-book/api?page=11')  //根目錄
       .then(r=>r.json())
