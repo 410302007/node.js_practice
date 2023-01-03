@@ -37,9 +37,29 @@ const getListData = async(req,res)=>{
 router.get("/add", async(req, res)=>{
   res.render("ab-add");
 });
-router.post("/add", async(req, res)=>{
+router.post("/add",upload.none(), async(req, res)=>{
+  const output = {
+    success:false,
+    postData: req.body, //除錯用
+    code:0,
+    errors:{}
+  };
+
+  const {name,email,mobile,birthday,address} = req.body;
+
   //TODO資料檢查
-  res.json(req.body);
+
+  const sql = "INSERT INTO `address_book`(`name`, `email`, `mobile`, `birthday`, `address`, `created_at`) VALUES (?, ?, ?, ?, ?, NOW())";
+
+  const [result] = await db.query(sql, [
+    name,
+    email,
+    mobile,
+    birthday,
+    address,
+  ]);
+  output.result = result;
+  res.json(output);
 });
 
 router.get("/", async(req, res)=>{
