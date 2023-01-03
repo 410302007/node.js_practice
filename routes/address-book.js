@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require('../modules/connect-mysql');
 const upload = require('../modules/upload-img');
+const moment = require('moment-timezone');
 
 const router =  express.Router();
 
@@ -45,7 +46,10 @@ router.post("/add",upload.none(), async(req, res)=>{
     errors:{}
   };
 
-  const {name,email,mobile,birthday,address} = req.body;
+  let {name,email,mobile,birthday,address} = req.body;
+
+  birthday = moment(birthday);
+  birthday = birthday.isValid() ? birthday.format('YYYY-MM-DD'): null;  //格式錯->填空值
 
   //TODO資料檢查
 
