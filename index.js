@@ -26,10 +26,15 @@ app.set('view engine','ejs');
 
 //路由開始前
 //直接使用use ; 不用分post or get
-//TOP-LEVEL MIDDLEWARE
-app.use(express.urlencoded({extended :false}));
-app.use(express.json());
-app.use(require('cors')());      //使用cors
+
+const corsOptions = {
+  credential:true,
+  origin:(origin, callback)=>{
+    console.log({origin});
+    callback(null, true);
+  },
+};
+app.use(require('cors')(corsOptions));      //使用cors
 
 app.use(session({
   // 新用戶沒有使用到 session 物件時不會建立 session 和發送 cookie
@@ -41,6 +46,9 @@ app.use(session({
   //   maxAge: 120_000   //20分鐘
   // }
 }));
+//TOP-LEVEL MIDDLEWARE
+app.use(express.urlencoded({extended :false}));
+app.use(express.json());
 
 //自訂middleware
 app.use((req,res,next)=>{
