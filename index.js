@@ -27,6 +27,7 @@ app.set('view engine','ejs');
 //TOP-LEVEL MIDDLEWARE
 app.use(express.urlencoded({extended :false}));
 app.use(express.json());
+app.use(require('cors')());
 
 app.use(session({
   // 新用戶沒有使用到 session 物件時不會建立 session 和發送 cookie
