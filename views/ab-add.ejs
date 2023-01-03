@@ -78,6 +78,12 @@
       .then(r=>r.json())
       .then(data=>{
         console.log(data);
+        if(data.success){
+          alert('新增成功');
+          location.href='/address-book';
+        }else{
+          alert('新增失敗');
+        }
       });
 
 

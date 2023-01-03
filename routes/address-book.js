@@ -47,6 +47,10 @@ router.post("/add",upload.none(), async(req, res)=>{
   };
 
   let {name,email,mobile,birthday,address} = req.body;
+  if(!name || name.length<2){
+    output.errors.name = '請輸入正確的姓名';
+    return res.json(output);
+  }
 
   birthday = moment(birthday);
   birthday = birthday.isValid() ? birthday.format('YYYY-MM-DD'): null;  //格式錯->填空值
@@ -63,6 +67,7 @@ router.post("/add",upload.none(), async(req, res)=>{
     address,
   ]);
   output.result = result;
+  output.success = !! result.affectedRows;
   res.json(output);
 });
 
