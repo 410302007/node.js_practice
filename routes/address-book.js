@@ -45,6 +45,7 @@ router.get("/api", async(req, res)=>{
     item.birthday = res.locals.toDateString(item.birthday); //item->object
     item.created_at = res.locals.toDatetimeString(item.created_at);
   }
+  //TODO: 用output.rows.forEach() 再寫一次功能
   res.json(output);
 });
 
