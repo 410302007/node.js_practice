@@ -271,7 +271,7 @@ app.post("/login", upload.none(), async (req, res) => {
     output.code = 420;
   }
 
-  return res.json({});
+  return res.json(output);
 });
 app.get("/logout", async (req, res) => {
   delete req.session.user;
