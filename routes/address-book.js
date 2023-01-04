@@ -40,11 +40,60 @@ const getListData = async(req,res)=>{
 }
   return {totalRows, totalPages, page, rows};
 };
+
 //新增資料
 router.get("/add", async(req, res)=>{
   res.render("ab-add");
 });
 router.post("/add",upload.none(), async(req, res)=>{
+  const output = {
+    success:false,
+    postData: req.body, //除錯用
+    code:0,
+    errors:{}
+  };
+
+  let {name,email,mobile,birthday,address} = req.body;
+  if(!name || name.length<2){
+    output.errors.name = '請輸入正確的姓名';
+    return res.json(output);
+  }
+
+  birthday = moment(birthday);
+  birthday = birthday.isValid() ? birthday.format('YYYY-MM-DD'): null;  //格式錯->填空值
+
+  //TODO資料檢查
+
+  const sql = "INSERT INTO `address_book`(`name`, `email`, `mobile`, `birthday`, `address`, `created_at`) VALUES (?, ?, ?, ?, ?, NOW())";
+
+  const [result] = await db.query(sql, [
+    name,
+    email,
+    mobile,
+    birthday,
+    address,
+  ]);
+  output.result = result;
+  output.success = !! result.affectedRows;
+  res.json(output);
+});
+
+router.get("/edit/:sid",upload.none(), async(req, res)=>{
+  const sid = req.params.sid || 0 ; 
+   if(!sid){
+   // output.error = '沒有 sid';   //顯示錯誤訊息
+   return res.redirect(req.baseUrl);  //轉向address-book 列表頁
+   }
+   const sql ="SELECT * FROM address_book WHERE sid=?";
+   const [rows] = await db.query(sql,[sid]);
+   if(rows.length<1){
+   return res.redirect(req.baseUrl);  //轉向
+   }
+   const row = rows[0];
+   res.json(row);
+   // res.render("ab-edit",{row});
+ });
+router.put("/edit/:sid", async(req, res)=>{
   const output = {
     success:false,
     postData: req.body, //除錯用
