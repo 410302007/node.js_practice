@@ -18,7 +18,7 @@
           <% for(let i=page-5; i<=page+5; i++) 
           if(i>=1 && i<=totalPages){ %>
             <li class="page-item <%= i==page ? 'active' : '' %>">
-            <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+            <a class="page-link" href="javascript: gotoPage(<%= i %>)"><%= i %></a>
             </li>
           <% } %>
           <li class="page-item <%= page == totalPages ? 'disabled' : '' %>"><a class="page-link" href="?page=<%= totalPages %>"><i class="fa-solid fa-circle-arrow-right"></i></a></li>
@@ -73,6 +73,25 @@
 <%- include('parts/scripts') %>
 
 <script>
+
+  const usp = new URLSearchParams(location.search);
+  const searchInput = document.querySelector('input[name=search]');
+
+  if(usp.get('search')){
+    //把之前的關鍵字放回去search輸入欄裡
+    searchInput.value = usp.get('search');
+  }
+
+  const gotoPage = (page)=>{
+    usp.set('page', page);  //'page'-> page的 key & value
+    location.href= '?' + usp.toString();
+  }
+
+
+
+
+
+
   function deleteItem(sid){
     if(! confirm(`是否要刪除編號為${sid}的資料?`)){
       return;

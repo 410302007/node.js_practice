@@ -28,7 +28,7 @@ const getListData = async(req,res)=>{
   if(search){
     const esc_search = db.escape(`%${search}%`); //sql跳脫單引號 -> 避免sql injection
     console.log({esc_search});
-    where += ` AND \`name\` LIKE ${esc_search}`;
+    where += ` AND (\`name\` LIKE ${esc_search} OR \`mobile\` LIKE ${esc_search} OR \`address\` LIKE ${esc_search})`;
   }
 
   const perPage = 20;                 //每頁20筆
