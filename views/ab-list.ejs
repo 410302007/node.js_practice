@@ -5,7 +5,15 @@
 <div class="container">
   <div class="row justify-content-end">
     <div class="col-4">
-      <form class="d-flex" role="search">
+      <select class="form-select" id="orderby" onchange="changeParams()">
+        <option value="sid_asc">預設(編號升冪)</option>
+        <option value="sid_desc">編號降冪</option>
+        <option value="birthday_asc">生日升冪</option>
+        <option value="birthday_desc">生日降冪</option>
+      </select>
+    </div>
+    <div class="col-4">
+      <form class="d-flex" role="search" onsubmit="changeParams(event)">
       <input class="form-control me-2" type="search" name="search" placeholder="Search">
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form></div>
@@ -14,7 +22,7 @@
     <div class="col">
       <nav aria-label="Page navigation example">
         <ul class="pagination">
-          <!-- <li class="page-item <%= page == 1 ? 'disabled' : '' %>"><a class="page-link" href="?page=<%= page - 1 %>"><i class="fa-solid fa-circle-arrow-left"></i></a></li> -->
+          <li class="page-item <%= page == 1 ? 'disabled' : '' %>"><a class="page-link" href="?page=<%= page - 1 %>"><i class="fa-solid fa-circle-arrow-left"></i></a></li>
           <% for(let i=page-5; i<=page+5; i++) 
           if(i>=1 && i<=totalPages){ %>
             <li class="page-item <%= i==page ? 'active' : '' %>">
@@ -76,17 +84,30 @@
 
   const usp = new URLSearchParams(location.search);
   const searchInput = document.querySelector('input[name=search]');
+  const orderbySel = document.querySelector('#orderby')
 
   if(usp.get('search')){
     //把之前的關鍵字放回去search輸入欄裡
     searchInput.value = usp.get('search');
   }
-
+  if(usp.get('orderby')){
+    //把之前的關鍵字放回去search輸入欄裡
+    orderbySel.value = usp.get('orderby');
+  }
+  // 跳掉第幾頁
   const gotoPage = (page)=>{
     usp.set('page', page);  //'page'-> page的 key & value
     location.href= '?' + usp.toString();
   }
 
+  //設定關鍵字，或變更排序
+  const changeParams = (event=null)=>{
+    if(event) event.preventDefault();
+    usp.set('page',1);    //呈現頁面為第一頁
+    usp.set('orderby', orderbySel.value);
+    usp.set('search', searchInput.value);
+    location.href= '?' + usp.toString();
+  }
 
 
 
