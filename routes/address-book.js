@@ -78,7 +78,7 @@ router.post("/add",upload.none(), async(req, res)=>{
   res.json(output);
 });
 
-router.get("/edit/:sid",upload.none(), async(req, res)=>{
+router.get("/edit/:sid", async(req, res)=>{
   const sid = req.params.sid || 0 ; 
    if(!sid){
    // output.error = '沒有 sid';   //顯示錯誤訊息
@@ -93,14 +93,19 @@ router.get("/edit/:sid",upload.none(), async(req, res)=>{
   //  res.json(row);
    res.render("ab-edit",{...row});
  });
-router.put("/edit/:sid", async(req, res)=>{
-  return res.json(req.body); //除錯
+router.put("/edit/:sid", upload.none(), async(req, res)=>{
+  // return res.json(req.body); //除錯
   const output = {
     success:false,
     postData: req.body, //除錯用
     code:0,
     errors:{}
   };
+  const sid = +req.params.sid ||0;
+  if(!sid){
+    output.errors.sid = '沒有資料編號';
+    return res.json(output);  //API 不要用轉向
+  }
 
   let {name,email,mobile,birthday,address} = req.body;
   if(!name || name.length<2){
@@ -113,7 +118,7 @@ router.put("/edit/:sid", async(req, res)=>{
 
   //TODO資料檢查
 
-  const sql = "INSERT INTO `address_book`(`name`, `email`, `mobile`, `birthday`, `address`, `created_at`) VALUES (?, ?, ?, ?, ?, NOW())";
+  const sql =  "UPDATE `address_book` SET `name`=?,`email`=?,`mobile`=?,`birthday`=?,`address`=? WHERE `sid`=? ";
 
   const [result] = await db.query(sql, [
     name,
@@ -121,10 +126,14 @@ router.put("/edit/:sid", async(req, res)=>{
     mobile,
     birthday,
     address,
+    sid
   ]);
   output.result = result;
   output.success = !! result.affectedRows;
-  res.json(output);
+  
+  //affectedRows
+  //changedRows
+  res.json({result});
 });
 
 router.get("/", async(req, res)=>{
