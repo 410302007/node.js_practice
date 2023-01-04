@@ -90,10 +90,11 @@ router.get("/edit/:sid",upload.none(), async(req, res)=>{
    return res.redirect(req.baseUrl);  //轉向
    }
    const row = rows[0];
-   res.json(row);
-   // res.render("ab-edit",{row});
+  //  res.json(row);
+   res.render("ab-edit",{...row});
  });
 router.put("/edit/:sid", async(req, res)=>{
+  return res.json(req.body); //除錯
   const output = {
     success:false,
     postData: req.body, //除錯用
