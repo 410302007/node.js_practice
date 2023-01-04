@@ -21,8 +21,18 @@ const getListData = async(req,res)=>{
   }
   //如果 page 參數沒有提供或小於 1，則該函數將使用者重定向到應用程式的當前基礎 URL，並附上 trq.url
 
+  let where = ' WHERE 1 '; //true
+  //關鍵字搜尋
+  let search = req.query.search || ''; 
+  //姓名搜尋
+  if(search){
+    const esc_search = db.escape(`%${search}%`); //sql跳脫單引號 -> 避免sql injection
+    console.log({esc_search});
+    where += ` AND \`name\` LIKE ${esc_search}`;
+  }
+
   const perPage = 20;                 //每頁20筆
-  const t_sql ="SELECT COUNT(1) totalRows FROM address_book";   //求總筆數
+  const t_sql =`SELECT COUNT(1) totalRows FROM address_book ${where}`;   //求總筆數
   const [[{totalRows}]] = await db.query(t_sql);       //[[{totalRows}]]
   const totalPages = Math.ceil(totalRows/perPage);   //總頁數
   
@@ -31,8 +41,9 @@ const getListData = async(req,res)=>{
     if(page>totalPages){
       return res.redirect ("?page=" + totalPages); //頁面轉向到最後一頁
   }
+
   
-  const sql = `SELECT * FROM address_book ORDER BY sid DESC LIMIT ${(page-1)*perPage}, ${perPage}`;
+  const sql = `SELECT * FROM address_book ${where} ORDER BY sid DESC LIMIT ${(page-1)*perPage}, ${perPage}`;
   
   [rows]= await db.query(sql);
   //轉換時間格式
