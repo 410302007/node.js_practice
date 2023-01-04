@@ -237,9 +237,42 @@ app.get("/add-member", async (req, res) => {
 app.get("/login", async (req, res) => {
   return res.render('login');
   });
-app.post("/login", async (req, res) => {
+app.post("/login", upload.none(), async (req, res) => {
+  const output ={
+    success:false,
+    code:0,
+    error:'',
+  };
+
+  const {email, password} = req.body;
+  if(!email || !password){
+    output.error = '欄位資料不足';
+    output.code = 400;
+    return res.json(output);
+  }
+
+  const sql = "SELECT * FROM members WHERE email=?";
+  const [rows] = await db.query(sql, [email]);
+  if(rows.length<1){
+    output.error = '帳號或密碼錯誤';
+    output.code = 410;
+    return res.json(output);
+  }
+  const row = rows[0];
+  const result = await bcrypt.compare(password, row.password);
+  if(result){
+    output.success = true;
+    req.session.user = {
+      email,
+      nickname: row.nickname
+    };
+  }else{
+    output.error = '帳號或密碼錯誤';
+    output.code = 420;
+  }
+
   return res.json({});
-  });
+});
 app.get("/logout", async (req, res) => {
   delete req.session.user;
   return res.redirect('/');
