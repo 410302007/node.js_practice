@@ -7,7 +7,8 @@ if(process.argv[2]==='production'){
   }
 
 //載入env 設定
-require('dotenv').config();
+// require('dotenv').config();
+const bcrypt = require('bcryptjs');
 const multer = require('multer');                 //安裝multer
 const upload = require('./modules/upload-img');   //設定上傳暫存目錄
 const session = require('express-session');       //安裝express-session
@@ -57,6 +58,8 @@ app.use((req,res,next)=>{
   //樣板輔助函式 helper functions
   res.locals.toDateString = d=>moment(d).format('YYYY-MM-DD');
   res.locals.toDatetimeString = d=>moment(d).format('YYYY-MM-DD HH:mm:ss');
+
+  res.locals.session = req.session;  //將session
 
   next();     
 })
@@ -216,7 +219,31 @@ app.get('/try-moment',(req,res)=>{
 app.get('/try-db', async(req,res)=>{
   const [rows] = await db.query("SELECT * FROM categories")
   res.json(rows);
-})
+});
+
+app.get("/add-member", async (req, res) => {
+  return res.json({});
+  const sql = "INSERT INTO `members`(`email`, `password`, `hash`, `nickname`, `create_at`) VALUES (?, ?, '', '小美', NOW())";
+
+  const password = await bcrypt.hash('123456', 10);
+
+  const [result] = await db.query(sql, [
+    'shin@test.com',
+    password
+  ]);
+
+  res.json(result);
+});
+app.get("/login", async (req, res) => {
+  return res.render('login');
+  });
+app.post("/login", async (req, res) => {
+  return res.json({});
+  });
+app.get("/logout", async (req, res) => {
+  delete req.session.user;
+  return res.redirect('/');
+});
 
 app.use('/address-book', require('./routes/address-book'));
 
