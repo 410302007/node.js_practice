@@ -91,8 +91,13 @@ router.get("/edit/:sid", async(req, res)=>{
    }
    const row = rows[0];
   //  res.json(row);
-   res.render("ab-edit",{...row});
+
+  //從哪裡來
+  const referer = req.get('Referer') || req.baseUrl;
+
+  res.render("ab-edit",{...row, referer});
  });
+
 router.put("/edit/:sid", upload.none(), async(req, res)=>{
   // return res.json(req.body); //除錯
   const output = {
@@ -129,11 +134,11 @@ router.put("/edit/:sid", upload.none(), async(req, res)=>{
     sid
   ]);
   output.result = result;
-  output.success = !! result.affectedRows;
+  output.success = !! result.changedRows;
   
   //affectedRows
   //changedRows
-  res.json({result});
+  res.json(output);
 });
 
 router.get("/", async(req, res)=>{
