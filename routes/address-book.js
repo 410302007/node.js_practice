@@ -24,11 +24,26 @@ const getListData = async(req,res)=>{
   let where = ' WHERE 1 '; //true
   //關鍵字搜尋
   let search = req.query.search || ''; 
+  let orderby = req.query.orderby || '';
+  
+
   //姓名搜尋
   if(search){
     const esc_search = db.escape(`%${search}%`); //sql跳脫單引號 -> 避免sql injection
     console.log({esc_search});
     where += ` AND (\`name\` LIKE ${esc_search} OR \`mobile\` LIKE ${esc_search} OR \`address\` LIKE ${esc_search})`;
+  }
+  let orderbySQL = 'ORDER BY sid ASC'; //預設值
+  switch(orderby){
+    case 'sid_desc':
+      orderbySQL = 'ORDER BY sid DESC';
+      break;
+    case 'birthday_asc':
+      orderbySQL = ' ORDER BY birthday ASC ';
+      break;
+    case 'birthday_desc':
+      orderbySQL = ' ORDER BY birthday DESC ';
+      break;
   }
 
   const perPage = 20;                 //每頁20筆
@@ -43,7 +58,7 @@ const getListData = async(req,res)=>{
   }
 
   
-  const sql = `SELECT * FROM address_book ${where} ORDER BY sid DESC LIMIT ${(page-1)*perPage}, ${perPage}`;
+  const sql = `SELECT * FROM address_book ${where} ${orderbySQL} LIMIT ${(page-1)*perPage}, ${perPage}`;
   
   [rows]= await db.query(sql);
   //轉換時間格式
