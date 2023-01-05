@@ -237,7 +237,7 @@ app.get("/add-member", async (req, res) => {
 app.get("/login", async (req, res) => {
   return res.render('login');
   });
-app.post("/login", upload.none(), async (req, res) => {
+app.post("/login", upload.none(), async (req, res) => {  //upload,none()-> 解析器
   const output ={
     success:false,
     code:0,
@@ -290,6 +290,7 @@ app.get('/fake1', async(req, res)=>{
 });
 
 app.use('/address-book', require('./routes/address-book'));
+app.use('/products', require('./routes/products'));
 
 //使用靜態內容的資料夾
 app.use(express.static('public'));
