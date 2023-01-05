@@ -19,9 +19,8 @@
     <div class="col tableContainer"></div>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js">
-  
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
 
 
     <script>
@@ -51,7 +50,7 @@
             <td>${bookname}</td>  
             <td>${author}</td>  
             <td>${price}</td>  
-            <td>${publish_date}</td>  
+            <td>${dayjs(publish_date).format('YYYY-MM-DD')}</td>
           </tr>
           `)).join('')} 
         </tbody>
