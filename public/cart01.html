@@ -50,7 +50,7 @@
               ({ sid, bookname, author, price, quantity, publish_date }) => `
               <tr>
                 <td>
-                  <a href="javascript: addToCart(${sid})">
+                  <a href="javascript:removeItem(${sid})">
                     <i class="fa-solid fa-circle-xmark"></i>
                   </a>
                   
@@ -69,38 +69,48 @@
       </table>
     `;
       };
+      const render = ()=>{
+        document.querySelector(".tableContainer").innerHTML =
+          renderTable(cart);
+      };
+
       const getData = async()=>{
         //初始化購物車
         const str = localStorage.getItem('cart');
         try{
-          cart = JSON.parse(str);
+          if(str) cart = JSON.parse(str); //若localstorgae 是沒有資料，拿到空值
         }catch(ex){}
-
-    
-        document.querySelector('.tableContainer').innerHTML = renderTable(cart);
-
+        render(); //呈現畫面(資料表格)
     };
       
-      getData(); //第一次進來呼叫              
+      getData(); //第一次進來呼叫   
+    
+      //移除商品
+    const removeItem= (product_id)=>{
+      cart = cart.filter(item=>item.sid!==product_id)   //item_sid是我要的，就把它移除
+      
+    localStorage.setItem('cart', JSON.stringify(cart));
+        render();
+    };
 
     //商品加入購物車
-    function addToCart(product_id){
-      //先看購物車裡有沒有這個商品
-      const item = cart.find((v)=>v.sid===product_id)
-      if(! item){
-        //若購物車內沒有這項商品時，才加入
-        let product = myData.find((v)=>v.sid===product_id);
-        product = {...product, quantity:1}; //加入數量的屬性
-        cart.push(product);  
+    // function addToCart(product_id){
+    //   //先看購物車裡有沒有這個商品
+    //   const item = cart.find((v)=>v.sid===product_id)
+    //   if(! item){
+    //     //若購物車內沒有這項商品時，才加入
+    //     let product = myData.find((v)=>v.sid===product_id);
+    //     product = {...product, quantity:1}; //加入數量的屬性
+    //     cart.push(product);  
 
-        localStorage.setItem('cart', JSON.stringify(cart));
-        return true;  //新加入
-      }else{
-        item.quantity++;  //重複加
-        localStorage.setItem('cart', JSON.stringify(cart));
-      }
-      return false;
-    }
+    //     localStorage.setItem('cart', JSON.stringify(cart));
+    //     return true;  //新加入
+    //   }else{
+    //     item.quantity++;  //重複加
+    //     localStorage.setItem('cart', JSON.stringify(cart));
+    //   }
+    //   return false;
+    // }
     
     //移除商品
     //變更某項商品的數量
