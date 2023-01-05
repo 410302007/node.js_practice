@@ -45,7 +45,8 @@
 
     <script>
       let myData;  //全域變數
-      
+      let myLikes;
+
       //解構賦值(使用map)
       //randomTable -> 回傳html
       const renderTable = (ar)=>{
@@ -68,7 +69,7 @@
           (`
           <tr>
             <td>
-              <div class="my-like" data-sid="${sid}" onclick="toggleLike(event)">
+              <div class="my-like" data_sid="${sid}" id="prod${sid}" onclick="toggleLike(event)">
                 <i class="fa-solid fa-heart red"></i>
                 <i class="fa-regular fa-heart gray"></i>
               </div>
@@ -84,25 +85,31 @@
       </table>
       `;
     }; 
-      const getData = ()=>{
+      const getData = async()=>{
 
-      fetch('/products')  //根目錄
-      .then(r=>r.json())
-      .then(data=>{
-        myData = data;
-        console.log(data);
+      const r1 = await fetch('/products')  //根目錄
+      myData = await r1.json(); 
+      console.log(myData);
+      document.querySelector('.tableContainer').innerHTML = renderTable(myData);
 
-        document.querySelector('.tableContainer').innerHTML = renderTable(data);
-       
-      });
-      };
+      const r2 = await fetch('/products/likes');
+      myLikes = await r2.json();
+      if(myLikes.logined){
+        myLikes.likes.forEach(({product_id})=>{
+          const el = document.querySelector('#prod' + product_id);
+          if(el){
+            el.classList.add('yes');
+          }
+        });
+      }
+    };
       
       getData(); //第一次近來呼叫
 
       const toggleLike = (event)=>{
         const t = event.currentTarget;
 
-        const pid = t.getAttribute('data-sid');
+        const pid = t.getAttribute('data_sid');
         // console.log({pid});
 
         fetch(`/products/toggle-like/${pid}`)
