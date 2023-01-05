@@ -10,6 +10,26 @@
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
     <title>商品列表</title>
+    <style>
+      .red{
+        color:red;
+      }
+      .gray{
+        color:gray;
+      }
+      .my-like>.fa-solid{
+        display: none;
+      }
+      .my-like>.fa-regular{
+        display: inline-block;
+      }
+      .my-like.yes>.fa-solid{
+        display: inline-block;
+      }
+      .my-like.yes>.fa-regular{
+        display: none;
+      }
+    </style>
   </head>
   <body>
 
@@ -35,6 +55,7 @@
        <table class="table table-striped table-bordered">
         <thead>
           <tr>
+            <th scope="col">最愛</th>
             <th scope="col">#</th>
             <th scope="col">書名</th>
             <th scope="col">作者</th>
@@ -46,6 +67,12 @@
           ${ar.map(({sid, bookname, author, price, publish_date})=>
           (`
           <tr>
+            <td>
+              <div class="my-like" onclick="toggleLike(event)">
+                <i class="fa-solid fa-heart red"></i>
+                <i class="fa-regular fa-heart gray"></i>
+              </div>
+            </td>
             <td>${sid}</td>  
             <td>${bookname}</td>  
             <td>${author}</td>  
@@ -71,6 +98,11 @@
       };
       
       getData(); //第一次近來呼叫
+
+      const toggleLike = (event)=>{
+        const t = event.currentTarget;
+        t.classList.toggle('yes');   //如果有愛心就拿掉，如果沒有愛心就加進去
+      };
      
    </script>
   </body>
