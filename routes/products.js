@@ -19,7 +19,7 @@ router.use((req, res, next)=>{
 router.get('/', async(req, res)=>{
   const [rows] = await db.query("SELECT * FROM products");
 
-  res.send(rows);
+  res.send(rows); //->array
 
 });
 
