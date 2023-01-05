@@ -107,6 +107,10 @@
       getData(); //第一次近來呼叫
 
       const toggleLike = (event)=>{
+        if(! myLikes.logined){   //沒有登入 無法加入至喜愛清單
+          alert('登入後才能加入商品至喜愛清單');
+          return;
+        }
         const t = event.currentTarget;
 
         const pid = t.getAttribute('data_sid');

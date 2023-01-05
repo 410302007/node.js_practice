@@ -53,7 +53,7 @@ router.get('/toggle-like/:pid', async(req, res)=>{   //確定我的最愛裡是�
 });
 router.get('/likes', async(req, res)=>{
   const output={
-    logined:false,     //有沒有登入
+    logined:false,     //檢查是否登入
     error:'',
     likes: [],
   };
@@ -62,8 +62,11 @@ router.get('/likes', async(req, res)=>{
   }
   output.logined = true;
 
-  const sql = `SELECT product_id FROM product_likes WHERE member_id=${req.session.user.id}
-               ORDER BY created_at ASC`;  //依加入的時間進行升冪排序
+  const sql = `SELECT p.*, pl.product_id FROM product_likes pl
+              JOIN products p
+              ON pl.product_id = p.sid  
+              WHERE pl.member_id=${req.session.user.id}
+              ORDER BY created_at ASC`;  //依加入的時間進行升冪排序
   const [rows] =await db.query(sql);
   output.likes = rows;
 
