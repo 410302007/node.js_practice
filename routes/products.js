@@ -39,7 +39,7 @@ router.get('/toggle-like/:pid', async(req, res)=>{   //確定我的最愛裡是�
     output.action ='delete';                  //1.有的話就拿掉
   }else{
     //TODO :判斷有無此商品
-    
+
     const sql3 = "INSERT INTO `product_likes`(`member_id`, `product_id`) VALUES(?,?)";
     const [result] = await db.query(sql3,[
       req.session.user.id,
@@ -49,6 +49,24 @@ router.get('/toggle-like/:pid', async(req, res)=>{   //確定我的最愛裡是�
     output.success = !!result.affectedRows;   //轉換boolean -> true
     output.action ='insert';
   }
+  res.json(output);
+});
+router.get('/likes', async(req, res)=>{
+  const output={
+    logined:false,     //有沒有登入
+    error:'',
+    likes: [],
+  };
+  if(!req.session.user){
+    return res.json(output);
+  }
+  output.logined = true;
+
+  const sql = `SELECT product_id FROM product_likes WHERE member_id=${req.session.user.id}
+               ORDER BY created_at ASC`;  //依加入的時間進行升冪排序
+  const [rows] =await db.query(sql);
+  output.likes = rows;
+
   res.json(output);
 });
 
