@@ -68,7 +68,7 @@
           (`
           <tr>
             <td>
-              <div class="my-like" onclick="toggleLike(event)">
+              <div class="my-like" data-sid="${sid}" onclick="toggleLike(event)">
                 <i class="fa-solid fa-heart red"></i>
                 <i class="fa-regular fa-heart gray"></i>
               </div>
@@ -101,7 +101,28 @@
 
       const toggleLike = (event)=>{
         const t = event.currentTarget;
-        t.classList.toggle('yes');   //如果有愛心就拿掉，如果沒有愛心就加進去
+
+        const pid = t.getAttribute('data-sid');
+        // console.log({pid});
+
+        fetch(`/products/toggle-like/${pid}`)
+          .then(r=>r.json())
+          .then(result=>{
+            console.log({pid, result});
+            if(result.success){
+              if(result.action==='insert'){
+                if(!t.classList.contains('yes')){
+                  t.classList.add('yes');
+                }
+              } else {
+                if(t.classList.contains('yes')){
+                  t.classList.remove('yes');
+                }
+              }
+            }
+          })
+
+        // t.classList.toggle('yes');
       };
      
    </script>
